@@ -14,13 +14,13 @@ if ($result->num_rows > 0) {
           $_SESSION["school_id"]=$srow["school_id"];
           $_SESSION["school_name"]=$srow["school_name"];
           $_SESSION["school_email"]=$srow["school_email"];
-          header("location: ../school_dashboard.php");
+          header("location: ../schools/school_dashboard.php");
       } 
   }else{
     session_start();
     $_SESSION["error"]=true;
     $errormessage="Email or Password not correct";
-    header("location: ../slogin.php?message=$errormessage");
+    header("location: ../schools/slogin.php?message=$errormessage");
   }
 
 

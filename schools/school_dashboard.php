@@ -1,7 +1,7 @@
 
 <?php 
 session_start();
-require_once "engine/database.php";
+require_once "../engine/database.php";
 if(isset( $_SESSION["school_id"])){
 
                        $schoolId=$_SESSION["school_id"];
@@ -47,14 +47,14 @@ if(isset( $_SESSION["school_id"])){
     <title>school- Dashboard</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -102,9 +102,9 @@ if(isset( $_SESSION["school_id"])){
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="teachers.php">Teachers</a>
-                        <a class="collapse-item" href="subject.php">Subject</a>
-                        <a class="collapse-item" href="class.php">Class</a>
+                        <a class="collapse-item" href="../teachers/teachers.php">Teachers</a>
+                        <a class="collapse-item" href="../schools/subject.php">Subject</a>
+                        <a class="collapse-item" href="../schools/class.php">Class</a>
 
                     </div>
                 </div>
@@ -116,24 +116,25 @@ if(isset( $_SESSION["school_id"])){
             <hr class="sidebar-divider">
 
             <!-- Heading -->
-            <!-- <div class="sidebar-heading">
+            <div class="sidebar-heading">
                 Addons
-            </div> -->
+            </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
          
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
+                <a class="nav-link" href="students.php">
+                    <!-- <i class="fas fa-fw fa-chart-area"></i> -->
+                    <i class='fas fa-fw  fa-user-friends'></i>
+                    <span>Students</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="../online_exam">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
+                    <span>Exam Sysmtem</span></a>
             </li>
 
             <!-- Divider -->
@@ -239,7 +240,7 @@ if(isset( $_SESSION["school_id"])){
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -490,7 +491,7 @@ if(isset( $_SESSION["school_id"])){
                               <div class="card-body">
                                         <!-- <img src="img/home.jpg" class="rounded-circle" alt="Logo" width="204" height="216">  -->
                                         <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../img/undraw_profile.svg">
                                        
                                         <h4 class="card-title"><?php echo $schoolemail ?></h4>
                                              <p class="card-text"><?php echo $schooladdress ?></p>
@@ -554,14 +555,14 @@ if(isset( $_SESSION["school_id"])){
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="../js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
     <!-- <script src="vendor/chart.js/Chart.min.js"></script> -->
@@ -576,7 +577,7 @@ if(isset( $_SESSION["school_id"])){
 </html>
 <?php
 }else{
-    header("location: ./slogin.php");
+    header("location: slogin.php");
 }
 ?>
 
@@ -586,7 +587,7 @@ if(isset( $_SESSION["school_id"])){
         $('#submitteacher').on('click', function(){
            var data = $("#addteacher-form").serialize();   
             $.ajax({
-                url: 'engine/add_teacher.php',
+                url: '../engine/add_teacher.php',
                 type: 'post',
                 async: false,
                 data : data,
@@ -600,7 +601,7 @@ if(isset( $_SESSION["school_id"])){
         $('#submitsubject').on('click', function(){
            var subjectname = $('#subjectname').val();   
             $.ajax({
-                url: 'engine/addsubject.php',
+                url: '../engine/addsubject.php',
                 type: 'post',
                 async: false,
                 data : {
@@ -618,7 +619,7 @@ if(isset( $_SESSION["school_id"])){
         $('#submitclass').on('click', function(){
            var classname = $('#classname').val();   
             $.ajax({
-                url: 'engine/addclass.php',
+                url: '../engine/addclass.php',
                 type: 'post',
                 async: false,
                 data : {

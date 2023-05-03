@@ -1,7 +1,38 @@
 
 <?php 
 session_start();
-require_once "engine/database.php";
+require_once "../engine/database.php";
+if(isset( $_SESSION["teacher_id"])){
+
+                       $schoolId=$_SESSION["school_id"];
+                       $teacherId=$_SESSION["teacher_id"];
+
+                       $sql_school= "SELECT school_name FROM schools where school_id=$schoolId";
+                       $result = $conn->query($sql_school);
+                       $row = mysqli_fetch_assoc($result);
+                      // output data of each row
+                       $schoolname= $row["school_name"];
+                      
+
+                       $sql= "SELECT * FROM teacher where school_id='$schoolId' AND teacher_id='$teacherId'";
+                       $results = $conn->query($sql);
+                       $row = mysqli_fetch_assoc($results);
+                        $teachername= $row["teacher_name"];
+                       $teacheraddress=$row["teacher_adddress"];
+                       $teachernumber=$row["teacher_phone"];
+                       $teacheremail=$row["teacher_email"];
+
+
+
+                      
+
+                       // $sql= "SELECT * FROM subjects where school_id='$schoolId'";
+                       // $results = $conn->query($sql);
+                       // $row_subject = $results->num_rows;
+
+                       // $sql= "SELECT * FROM class where school_id='$schoolId'";
+                       // $results = $conn->query($sql);
+                       // $row_class = $results->num_rows;
 
 ?>
 
@@ -19,17 +50,17 @@ require_once "engine/database.php";
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>- Dashboard</title>
+    <title>school- Dashboard</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
           <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -46,7 +77,7 @@ require_once "engine/database.php";
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3"> Admin <sup></sup></div>
+                <div class="sidebar-brand-text mx-3"><?php echo $schoolname ?><sup></sup></div>
             </a>
 
             <!-- Divider -->
@@ -67,7 +98,7 @@ require_once "engine/database.php";
                 Interface
             </div> -->
 
-            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - Pages Collapse Menu -->   
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
@@ -76,9 +107,11 @@ require_once "engine/database.php";
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="buttons.">Buttons</a>
-                        <a class="collapse-item" href="cards.html">Cards</a>
+                        <!-- <h6 class="collapse-header">Custom Components:</h6>
+                        <a class="collapse-item" href="teachers.php">Teachers</a>
+                        <a class="collapse-item" href="subject.php">Subject</a>
+                        <a class="collapse-item" href="class.php">Class</a> -->
+
                     </div>
                 </div>
             </li>
@@ -210,17 +243,17 @@ require_once "engine/database.php";
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $teachername ?></span>
                                 <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="userDropdown">
-                                <!-- <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Profile
-                                </a> -->
+                                </a>
                                 <!-- <a class="dropdown-item" href="#">
                                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Settings
@@ -241,107 +274,163 @@ require_once "engine/database.php";
 
                 </nav>
                 <!-- End of Topbar -->
-
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                       <!--  <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                                class="fas fa-plus fa-sm text-white-50"></i> Add school</a>
- -->    
+                       <!-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+                        <i class="fas fa-plus fa-sm text-white-50"></i> Add school</a> -->
 
 
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@getbootstrap">
-    <i class="fas fa-plus fa-sm text-white-50"></i>Add school</button>
+<!-- <button type="button" class="d-none d-sm-inline-block btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1" data-bs-whatever="@getbootstrap">
+    <i class="fas fa-plus fa-sm text-white-50"></i>Add a New subject</button> -->
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<button type="button" class="d-none d-sm-inline-block btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@getbootstrap">
+    <i class="fas fa-plus fa-sm text-white-50"></i>Create Exam</button>
+   <!--  <button type="button" class="d-none d-sm-inline-block btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3" data-bs-whatever="@getbootstrap">
+    <i class="fas fa-plus fa-sm text-white-50"></i>Add a New class</button> -->
+    <button type="button" d="exampleModal1" class="d-none d-sm-inline-block btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1" data-bs-whatever="@getbootstrap">
+    <i class="fas fa-plus fa-sm text-white-50"></i>upload course material</button>
+</div>
+
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Add new school</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Create New Exam</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="post" id="addschool-form">
+        <form method="post" id="addexam-form">
           <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">School Name</label>
-            <input type="text" class="form-control" name="schoolname" id="schoolname" required>
+            <label for="recipient-name" class="col-form-label">Examination Date</label>
+            <input type="date" class="form-control" name="examdate" id="examdate" required />
           </div>
+           <div class="mb-3">
+             <select class="form-select form-select-md" name="class" id="class">
+             <option disabled>Choose Class</option>
+               <?php
+                                  $sql= "SELECT * FROM class where school_id='$schoolId'";
+                                  $result = $conn->query($sql);
+                                  if (mysqli_num_rows($result) > 0) {
+                                  // output data of each row
+                                  while($row = mysqli_fetch_assoc($result)) {
+     
+              ?>
+            <option><?php echo $row['class_name']?></option>
+             <?php
+                }
+            }else{
+                echo '<option>No Class available</option>';
+            }
+             ?>
+             </select>
+        </div>
           <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Email</label>
-            <input type="text" class="form-control" name="schoolemail" id="schoolemail" required>
-          </div>
+             <select class="form-select form-select-md" name="subject" id="subject">
+             <option disabled>Choose subject</option>
+               <?php
+                                  $sql= "SELECT * FROM subjects where school_id='$schoolId'";
+                                  $result = $conn->query($sql);
+                                  if (mysqli_num_rows($result) > 0) {
+                                  // output data of each row
+                                  while($row = mysqli_fetch_assoc($result)) {
+     
+              ?>
+            <option><?php echo $row['subject']?></option>
+             <?php
+                }
+            }else{
+                echo '<option>No subject available</option>';
+            }
+             ?>
+             </select>
+        </div>
           <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Phone</label>
-            <input type="text" class="form-control" name="schoolphone" id="schoolphone" required>
-          </div>
-          <div class="mb-3">
-            <label for="message-text" class="col-form-label">Address</label>
-            <textarea class="form-control" name="schooladdress" id="schooladdress" required></textarea>
+            <label for="message-text" class="col-form-label">classroom</label>
+            <textarea class="form-control" name="classroom" id="classroom" required /></textarea>
           </div>
         
-      </div>
+      </div> 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" id="submit" class="btn btn-primary">Add</button>
+        <button type="button" id="addexam" class="btn btn-primary">Add</button>
       </div>
       </form>
     </div>
   </div>
 </div>                
 
-</div>
+<!-- </div> -->
+<!-- subject modal -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">upload material</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="addfile-form" enctype="multipart/form-data">
+          
+          <div class="mb-3">
+         <label for="formFileMultiple" class="form-label">File Name</label>
+         <input class="form-control" type="text" placeholder="input file name" name="filename" id="filename" >
+        </div>
+        <div class="mb-3">
+         <label for="formFileMultiple" class="form-label">You can only upload one file at a time</label>
+         <input class="form-control" type="file" name="image" id="image" ><br>
+         <div id="preview"><img src="../img/file.png" /></div><br>
+         <!-- <input class="btn btn-success" id="uploadfile" type="submit" value="Upload"><br> -->
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="uploadfile" class="btn btn-success">Upload</button>
+      </div>
+      </form>
+      <!-- <div id="err"></div> -->
+    </div>
+  </div>
+</div>                
 
-                    <!-- Content Row -->
-                    <div class="row">
-                        <!-- check number of rows -->
-                        <?php
-                              $sql= "SELECT * FROM schools";
-                              $results = $conn->query($sql);
-                              $rows = $results->num_rows;
-                          ?>
+<!-- </div> -->
+<!-- class modal -->
+<!-- <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add a New Class</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="addclass-form">
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">class Name</label>
+            <input type="text" class="form-control" name="classname" id="classname" required>
+          </div>
+         
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" id="submitclass" class="btn btn-primary">Add</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>                 -->
 
-  
+<!-- </div> -->
 
-                        <!-- Number of Schools -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Number of schools</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $rows;?></div>
-                                        </div>
-                                        <div class="col-auto">
-                                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                       
-                    </div>
-
-                    <!-- Content Row -->
+                   
                   
                     <div class="row">
-                          <?php
-                             $sql= "SELECT * FROM schools";
-                              $result = $conn->query($sql);
-                        if (mysqli_num_rows($result) > 0) {
-                      // output data of each row
-                      while($row = mysqli_fetch_assoc($result)) {
-                       $schoolname= $row["school_name"];
-                       $schoolemail= $row["email"];
-                       $schooladdress=$row["address"];
-                       $schoolnumber=$row["phone"];
-
-
-                   ?>
+                         
                         <!-- Pie Chart -->
                         <div class="col-xl-4 col-lg-5">
                             <div class="card shadow mb-4">
@@ -349,7 +438,7 @@ require_once "engine/database.php";
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 font-weight-bold text-primary">
-                                        <?php echo $schoolname ?></h6>
+                                        <?php echo $teachername ?></h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -369,21 +458,16 @@ require_once "engine/database.php";
                               <div class="card-body">
                                         <!-- <img src="img/home.jpg" class="rounded-circle" alt="Logo" width="204" height="216">  -->
                                         <img class="img-profile rounded-circle"
-                                    src="img/undraw_profile.svg">
+                                    src="../img/undraw_profile.svg">
                                        
-                                        <h4 class="card-title"><?php echo $schoolemail ?></h4>
-                                             <p class="card-text"><?php echo $schooladdress ?></p>
-                                             <i class="card-text"><?php echo $schoolnumber ?></i>
+                                        <h4 class="card-title"><?php echo $teacheremail ?></h4>
+                                             <p class="card-text"><?php echo $teacheraddress ?></p>
+                                             <i class="card-text"><?php echo $teachernumber ?></i>
                                     
                                 </div> 
                             </div> 
                         </div>
-                         <?php
-                    }
-                }else{
-
-                }
-                ?>
+                      
                     </div>
                     
                    
@@ -438,43 +522,85 @@ require_once "engine/database.php";
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- <script src="vendor/jquery/jquery.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>gi
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="../js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <!-- <script src="vendor/chart.js/Chart.min.js"></script> -->
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <!-- <script src="js/demo/chart-area-demo.js"></script> -->
+    <!-- <script src="js/demo/chart-pie-demo.js"></script> -->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
 </html>
+<?php
+}else{
+    header("location: tlogin.php");
+}
+?>
+
 
 <script type="text/javascript">
     $(document).ready(function(){
-        // when the user clicks on add school
-        $('#submit').on('click', function(){
-           var data = $("#addschool-form").serialize();   
+        // when the user clicks on upload files
+        $('#uploadfile').on('click', function(){
+        //    var data = $("#addfile-form").serialize();
+    var form = $('#addfile-form')[0]; // Get the form element
+    var formData = new FormData(form); // Create FormData object   
             $.ajax({
-                url: 'engine/add_school.php',
+                url: '../engine/fileupload.php',
                 type: 'post',
                 async: false,
-                data : data,
+                data : formData,
+                processData: false,
+                contentType: false,
                  success: function(response){
-                
                 alert(response);
     
                 }
             });
-        });
+        }); 
+        // when the user clicks on add exam
+        $('#addexam').on('click', function(){
+           var data = $("#addexam-form").serialize();   
+            $.ajax({
+                url: '../engine/addexam.php',
+                type: 'post',
+                async: false,
+                data : data,
+                 success: function(response){
+                alert(response);
+    
+                }
+            });
+        }); 
+
+        // classname
+         // when the user clicks on add school
+        // $('#submitclass').on('click', function(){
+        //    var classname = $('#classname').val();   
+        //     $.ajax({
+        //         url: 'engine/addclass.php',
+        //         type: 'post',
+        //         async: false,
+        //         data : {
+        //             'classname':classname
+        //         },
+        //          success: function(response){
+        //         alert(response);
+    
+        //         }
+        //     });
+        // });
     });
 </script>

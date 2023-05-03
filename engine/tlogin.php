@@ -15,13 +15,13 @@ if ($result->num_rows > 0) {
           $_SESSION["teacher_id"]=$srow["teacher_id"];
           $_SESSION["teacher_name"]=$srow["teacher_name"];
           $_SESSION["teacher_email"]=$srow["teacher_email"];
-          header("location: ../teacher_dashboard.php");
+          header("location: ../teachers/teacher_dashboard.php");
       } 
   }else{
     session_start();
     $_SESSION["error"]=true;
     $errormessage="Email or Password not correct";
-    header("location: ../tlogin.php?message=$errormessage");
+    header("location: ../teachers/tlogin.php?message=$errormessage");
   }
 
 

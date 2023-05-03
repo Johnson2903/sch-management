@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once "engine/database.php";
+require_once "../engine/database.php";
 if(isset( $_SESSION["school_id"])){
 $schoolId=$_SESSION["school_id"];
                     
@@ -25,7 +25,7 @@ $schoolId=$_SESSION["school_id"];
     <title>teachers</title>
 
     <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
@@ -33,9 +33,9 @@ $schoolId=$_SESSION["school_id"];
 
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="../css/sb-admin-2.min.css" rel="stylesheet">
         <!-- Custom styles for this page -->
-    <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -81,9 +81,9 @@ $schoolId=$_SESSION["school_id"];
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="teachers.php">Teachers</a>
-                        <a class="collapse-item" href="subject.php">Subjects</a>
-                        <a class="collapse-item active"  href="#">Classes</a>
+                        <a class="collapse-item" href="../teachers/teachers.php">Teachers</a>
+                        <a class="collapse-item active" href="../schools/subject.php">Subjects</a>
+                        <a class="collapse-item" href="../schools/class.php">Classes</a>
 
                     </div>
                 </div>
@@ -212,7 +212,7 @@ $schoolId=$_SESSION["school_id"];
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Classes</h1>
+                    <h1 class="h3 mb-4 text-gray-800">Subjects</h1>
 
 
                     <!-- DataTales Example -->
@@ -226,7 +226,7 @@ $schoolId=$_SESSION["school_id"];
                                     <thead>
                                         <tr>
                                             <!-- <th>Id</th> -->
-                                            <th>Name</th>
+                                            <th>Class Name</th>
                                             <!-- <th>Subject</th>
                                             <th>Email</th>
                                             <th>Number</th>
@@ -247,7 +247,7 @@ $schoolId=$_SESSION["school_id"];
                                     </tfoot>
                                     <tbody>
                               <?php
-                              $sql= "SELECT * FROM class where school_id='$schoolId'";
+                              $sql= "SELECT * FROM subjects where school_id='$schoolId'";
                               $result = $conn->query($sql);
                               if (mysqli_num_rows($result) > 0) {
                               // output data of each row
@@ -256,14 +256,13 @@ $schoolId=$_SESSION["school_id"];
                               ?>
                                         <tr>
                                             
-                                            <td id="cname"><?php echo $row["class_name"]?></td>
+                                            <td id="sname"><?php echo $row["subject"]?></td>
                                             
                                             <td>
                                                  <div class="input-group">
-                                                  <button class="edit btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@getbootstrap"
-                                                   data-id="<?php echo $row['class_id']?>"
+                                                  <button class="edit btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@getbootstrap" data-id="<?php echo $row['subject_id']?>"
                                                    >Edit</button>
-                                                  <button class=" delete btn btn-danger" type="button" data-id="<?php echo $row['class_id']?>">Delete</button>
+                                                  <button class=" delete btn btn-danger" type="button" data-id="<?php echo $row['subject_id']?>">Delete</button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -288,25 +287,25 @@ $schoolId=$_SESSION["school_id"];
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update class Info</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Update Subject Info</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="post" id="updateclass-form" name="updateclass-form">
+        <form method="post" id="updatesubject-form" name="updatesubject-form">
           <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Class ID</label>
-            <input type="number" class="form-control" name="classid" id="classid" required>
+            <label for="recipient-name" class="col-form-label">Subjec ID</label>
+            <input type="number" class="form-control" name="subjectid" id="subjectid" required>
           </div>
           <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Class Name</label>
-            <input type="text" class="form-control" name="classname" id="classname" required>
+            <label for="recipient-name" class="col-form-label">Subject Name</label>
+            <input type="text" class="form-control" name="subjectname" id="subjectname" required>
           </div>
           
         
       </div> 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" id="updateclass" name="updateclass" class="btn btn-primary">Update</button>
+        <button type="button" id="updatesubject" name="updatesubject" class="btn btn-primary">Update</button>
       </div>
       </form>
     </div>
@@ -353,21 +352,21 @@ $schoolId=$_SESSION["school_id"];
         </div>
     </div>
 <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="../js/sb-admin-2.min.js"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="../vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
+    <script src="../js/demo/datatables-demo.js"></script>
 
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -386,7 +385,7 @@ $schoolId=$_SESSION["school_id"];
            var postid = $(this).data('id');  
            // alert(postid); 
             $.ajax({
-                url: 'engine/edit_class.php',
+                url: '../engine/edit_subject.php',
                 type: 'post',
                 async: false,
                 data: {
@@ -397,8 +396,8 @@ $schoolId=$_SESSION["school_id"];
                  success: function(response){
                     // alert(JSON.parse(response.teacher_name));
                     $.each(response, function() {
-                    $("#classid").val(this.class_id);
-                    $("#classname").val(this.class_name);
+                    $("#subjectid").val(this.subject_id);
+                    $("#subjectname").val(this.subject);
                     // $("#teacheremail").val(this.teacher_email);
                     // $("#teacherphone").val(this.teacher_phone);
                     // $("#teacheraddress").val(this.teacher_adddress);
@@ -412,24 +411,24 @@ $schoolId=$_SESSION["school_id"];
         });
 
         // when the user clicks on Update
-        $('#updateclass').on('click', function(){
-           let data = $("#updateclass-form").serialize();  
+        $('#updatesubject').on('click', function(){
+           let data = $("#updatesubject-form").serialize();  
            // let updateteacher= $("#updateteacher").data('id');             
            // alert(postid); 
             $.ajax({
-                url: 'engine/update_class.php',
+                url: '../engine/update_subject.php',
                 type: 'post',
                 async: false,
                 data:data,
                 dataType: "json",
                  success: function(response){
                      $.each(response, function() {
-                    $("#cname").text(this.class_name);
+                    $("#sname").text(this.subject);
                     // $("#tname").text(this.teacher_name);
                     // $("#temail").text(this.teacher_email);
                     // $("#tphone").text(this.teacher_phone);
                     // $("#taddress").text(this.teacher_adddress);
-                    alert('class updated successfuly');
+                    alert('subject updated successfuly');
                     });            
     
                 }
@@ -437,28 +436,28 @@ $schoolId=$_SESSION["school_id"];
         });
         // when the user clicks on delete
         $('.delete').on('click', function(){
-           var classid = $(this).data('id');  
-           alert(classid); 
+           var subjectid = $(this).data('id');  
+           // alert(teacherid); 
             $.ajax({
-                url: 'engine/edit_class.php',
+                url: '../engine/edit_subject.php',
                 type: 'post',
                 async: false,
                 data: {
                     'delete': 1,
-                    'classid': classid
+                    'subjectid': subjectid
                      },
                      dataType: "json",
                  success: function(response){
                     // alert(JSON.parse(response.teacher_name));
                     $.each(response, function() {
-                    $("#cname").text(this.class_name);
+                    $("#sname").text(this.subject);
 
                     // $("#tsubject").text(this.teacher_subject);
                     // $("#tname").text(this.teacher_name);
                     // $("#temail").text(this.teacher_email);
                     // $("#tphone").text(this.teacher_phone);
                     // $("#taddress").text(this.teacher_adddress);
-                    alert(this.class_name);
+                    alert(this.subject);
                     });
                 
                
