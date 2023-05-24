@@ -137,6 +137,9 @@ if(isset($_SESSION["school_id"])){
 </style>
 <body>
 <div class="container-fluid">
+<div class="sticky-top">
+  <button class="btn btn-primary" onclick="history.back()">Back</button>
+</div>
   <br><br>
   <!-- create exam -->
 <button type="button" class="d-none d-sm-inline-block btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@getbootstrap">
@@ -223,7 +226,7 @@ if(isset($_SESSION["school_id"])){
                                   // output data of each row
                                   while($row = mysqli_fetch_assoc($result)) {
               ?>
-            <option><?php echo $row['class_name']?></option>
+            <option value="<?php echo $row['class_id']?>"><?php echo $row['class_name']?></option>
              <?php
              }
             }else{
@@ -293,6 +296,11 @@ if(isset($_SESSION["school_id"])){
           if (mysqli_num_rows($result) > 0) {
           // output data of each row
           while($row = mysqli_fetch_assoc($result)) {
+            $classid=$row['class_id'];
+            //fetch subject with subjectid
+            $sql2= "SELECT * FROM class  where class_id='$classid'";
+            $result2 = $conn->query($sql2);
+            $row2 = mysqli_fetch_assoc($result2);
 
           ?>
                     <tr>
@@ -301,7 +309,7 @@ if(isset($_SESSION["school_id"])){
                         <td id="firstname"><?php echo  $row["firstname"]?></td>
                         <td id="lastname"><?php echo   $row["lastname"]?></td>
                         <td id="gender"><?php echo     $row["gender"]?></td>
-                        <td id="clas"><?php echo       $row["class"]?></td>
+                        <td id="clas"><?php echo       $row2["class_name"]?></td>
                         <td id="date"><?php echo       $row["date"]?></td>                        
                         <td>
                              <div class="input-group">
@@ -330,45 +338,7 @@ echo "No data available";
 
 </div>
 <!-- End of Main Content -->
-<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update Exam Info</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form method="post" id="updatexam-form" name="updatexam-form">
-          <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Exam ID</label>
-            <input type="number" class="form-control" name="examid" id="examid" required readonly>
-          </div>
-          <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Exam date</label>
-            <input type="date" class="form-control" name="examdate" id="examdate" required>
-          </div>
-          <div>
-          <label for="recipient-name" class="col-form-label">Subject</label>
-            <input type="text" class="form-control" name="subject" id="subject" required>
-          </div>
-          <div>
-          <label for="recipient-name" class="col-form-label">Class</label>
-            <input type="text" class="form-control" name="class" id="class" required>
-          </div>
-          <div>
-          <label for="recipient-name" class="col-form-label">Hall</label>
-            <input type="text" class="form-control" name="hall" id="hall" required>
-          </div>
-        
-      </div> 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" id="updatexam" name="updatexam" class="btn btn-primary">Update</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
+
 </body>
 <!-- Bootstrap core JavaScript-->
 <script src="../vendor/jquery/jquery.min.js"></script>
@@ -445,120 +415,10 @@ echo "No data available";
         });
 
 
-// when the user clicks on Update
-$('#updatexam').on('click', function() {
-  let data = $("#updatexam-form").serialize();
-
-  $.ajax({
-    url: '../engine/update_exam.php',
-    type: 'post',
-    data: data,
-    dataType: 'json',
-    success: function(response) {
-      if (response.error) {
-        console.log(response.error);
-        return;
-      }
-
-      try {
-        // Check if the JSON response contains the expected data
-        if (response.length > 0 && response[0].hasOwnProperty('examdate')) {
-          $("#examd").val(response[0].examdate);
-          $("#subj").val(response[0].subj);
-          $("#clas").val(response[0].class);
-          $("#classr").val(response[0].classroom);
-          alert('EXAM updated successfuly');
-        } else {
-          console.log('Unexpected JSON response: ' + JSON.stringify(response));
-        }
-      } catch (e) {
-        console.log('Error parsing JSON response: ' + response);
-      }           
-    },
-    error: function(xhr, status, error) {
-      console.log('Error: ' + error);
-    }
-  });
-});
-
-// when user click on questions
-$('.questions').on('click', function() {
-    var postid = $(this).data('id');  
-    console.log(postid); 
-    $.ajax({
-        url: '../engine/getquestions.php',
-        type: 'post',
-        data: {
-            'questions': 1,
-            'postid': postid
-        },
-        dataType: "json",
-        success: function(response) {
-            if(response.hasOwnProperty('message')) {
-                var message = response.message;
-        var button = "<button type='button' class='btn btn-primary' data-bs-dismiss='modal'>OK</button>";
-        var create = "<a href='question.php?postid=" + postid + "' type='button' class='btn btn-success'>Create Questions</a>";
-        var modalHTML = "<div class='modal fade' id='exampleModal' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>" + 
-            "<div class='modal-dialog'>" +
-                "<div class='modal-content'>" +
-                    "<div class='modal-header'>" +
-                        "<h5 class='modal-title' id='exampleModalLabel'>Message</h5>" +
-                        "<button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>" +
-                    "</div>" +
-                    "<div class='modal-body'>" + message + "</div>" +
-                    "<div class='modal-body'>" + create + "</div>" +
-
-                    "<div class='modal-footer'>" + button + "</div>" +
-                "</div>" +
-            "</div>" +
-        "</div>";
-        $('body').append(modalHTML);
-        $('#exampleModal').modal('show');
-            } else {
-                // console.log(response);
-                window.location = response.redirect_url;
-            }
-        },
-        error: function(xhr, status, error) {
-            console.log(error);
-        }
-    });
-});
 
 
-        // when the user clicks on delete
-        $('.delete').on('click', function(){
-          //  var subjectid = $(this).data('id'); 
-          var postid = $(this).data('id');  
 
-           // alert(teacherid); 
-            $.ajax({
-                url: '../engine/edit_exam.php',
-                type: 'post',
-                async: false,
-                data: {
-                    'delete': 1,
-                    'postid': postid
-                     },
-                     dataType: "json",
-                 success: function(response){
-                    // alert(JSON.parse(response.teacher_name));
-                    // $.each(response, function() {
-                    // $("#sname").text(this.subject);
 
-                    // $("#tsubject").text(this.teacher_subject);
-                    // $("#tname").text(this.teacher_name);
-                    // $("#temail").text(this.teacher_email);
-                    // $("#tphone").text(this.teacher_phone);
-                    // $("#taddress").text(this.teacher_adddress);
-                    alert(response);
-                    // });
-                
-               
-    
-                },
-            });
-        });
     });
 
     function closeModal() {

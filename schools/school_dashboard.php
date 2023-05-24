@@ -37,13 +37,11 @@ if(isset( $_SESSION["school_id"])){
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>school- Dashboard</title>
 
     <!-- Custom fonts for this template-->
@@ -304,6 +302,7 @@ if(isset( $_SESSION["school_id"])){
             <input type="text" class="form-control" name="teachername" id="teachername" required />
           </div>
           <div class="mb-3">
+            Assign Subject
              <select class="form-select form-select-md" name="teachersubject" id="teachersubject">
              <option disabled>Choose subject</option>
                <?php
@@ -314,7 +313,28 @@ if(isset( $_SESSION["school_id"])){
                                   while($row = mysqli_fetch_assoc($result)) {
      
               ?>
-            <option><?php echo $row['subject']?></option>
+            <option value="<?php echo $row['subject_id']?>"><?php echo $row['subject']?></option>
+             <?php
+                }
+            }else{
+                echo '<option>No subject available</option>';
+            }
+             ?>
+             </select>
+        </div>
+        <div class="mb-3">
+            Assign Class
+             <select class="form-select form-select-md" name="teacherclass" id="teacherclass">
+             <option disabled>Choose Class</option>
+               <?php
+                                  $sql= "SELECT * FROM class where school_id='$schoolId'";
+                                  $result = $conn->query($sql);
+                                  if (mysqli_num_rows($result) > 0) {
+                                  // output data of each row
+                                  while($row = mysqli_fetch_assoc($result)) {
+     
+              ?>
+            <option value="<?php echo $row['class_id']?>"> <?php echo $row['class_name']?></option>
              <?php
                 }
             }else{
@@ -548,7 +568,7 @@ if(isset( $_SESSION["school_id"])){
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="slogout.php">Logout</a>
                 </div>
             </div>
         </div>

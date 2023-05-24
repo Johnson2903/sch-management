@@ -242,17 +242,23 @@ $schoolId=$_SESSION["school_id"];
                                     </tfoot>
                                     <tbody>
                               <?php
-                              $sql= "SELECT * FROM teacher where school_id='$schoolId'";
+                              $sql= "SELECT * FROM teacher   where school_id='$schoolId'";
                               $result = $conn->query($sql);
                               if (mysqli_num_rows($result) > 0) {
                               // output data of each row
                               while($row = mysqli_fetch_assoc($result)) {
- 
+                                $classid=$row['class_id'];
+                                $subjectid=$row['subject_id'];
+                                //fetch subject with subjectid
+                                $sql2= "SELECT * FROM subjects  where subject_id='$subjectid'";
+                                $result2 = $conn->query($sql2);
+                                $row2 = mysqli_fetch_assoc($result2);
+
                               ?>
                                         <tr>
                                             <!-- <td data-id="<?php echo $row['teacher_id']?>"></td> -->
                                             <td id="tname"><?php echo $row["teacher_name"]?></td>
-                                            <td id="tsubject"><?php echo $row["teacher_subject"]?></td>
+                                            <td id="tsubject"><?php echo $row2["subject"]?></td>
                                             <td id="temail"><?php echo $row["teacher_email"]?></td>
                                             <td id="tphone"><?php echo $row["teacher_phone"]?></td>
                                             <td id="taddress"><?php echo $row["teacher_adddress"]?></td>
@@ -301,8 +307,8 @@ $schoolId=$_SESSION["school_id"];
           <div class="mb-3">
             <label for="recipient-name" class="col-form-label">Teacher Subject</label>
             <!-- <input type="text" class="form-control" name="teachersubject" id="teachersubject" required> -->
-             <select class="form-select form-select-md" name="teachersubject" id="teachersubject">
-             <option disabled>Choose subject</option>
+             <select class="form-select form-select-md" name="teachersubject" id="teachersubject" placeholder="djhjdhjhjs">
+             <option disabled selected>Choose subject</option>
                                   <?php
                                   $sql= "SELECT * FROM subjects where school_id='$schoolId'";
                                   $result = $conn->query($sql);
@@ -310,7 +316,7 @@ $schoolId=$_SESSION["school_id"];
                                   // output data of each row
                                   while($row = mysqli_fetch_assoc($result)) {
                                   ?>
-            <option><?php echo $row['subject']?></option>
+            <option value="<?php echo $row['subject_id']?>"><?php echo $row['subject']?></option>
              <?php
                 }
             }else{
@@ -324,7 +330,7 @@ $schoolId=$_SESSION["school_id"];
             <input type="email" class="form-control" name="teacheremail" id="teacheremail" required>
           </div>
           <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Teacher Phone Number</label>
+            <label for="recipient-name" class="col-form-label">Teacher Phone Number</label>                                     
             <input type="text" class="form-control" name="teacherphone" id="teacherphone" required>
           </div>
           <div class="mb-3">

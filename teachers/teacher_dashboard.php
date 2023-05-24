@@ -102,15 +102,16 @@ if(isset( $_SESSION["teacher_id"])){
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Components</span>
+                    <!-- <i class="fas fa-fw fa-cog"></i> -->
+                    <i class='fas fa-fw fa-calendar-check'></i>
+                    <span>Manage Attendance</span>
                 </a>
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <!-- <h6 class="collapse-header">Custom Components:</h6>
-                        <a class="collapse-item" href="teachers.php">Teachers</a>
-                        <a class="collapse-item" href="subject.php">Subject</a>
-                        <a class="collapse-item" href="class.php">Class</a> -->
+                        <h6 class="collapse-header">Attendance:</h6>
+                        <a class="collapse-item" href="attendance.php">Take Attendance</a>
+                        <a class="collapse-item" href="viewattendance.php">View Class Attendance</a>
+                        <a class="collapse-item" href="Viewst_attendance.php">View Student Attendance</a> 
 
                     </div>
                 </div>
@@ -130,9 +131,9 @@ if(isset( $_SESSION["teacher_id"])){
          
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
+            <a class="nav-link" href="viewstudent.php">
+            <i class='fas fa-fw  fa-user-friends'></i>
+                    <span>Students</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
@@ -515,7 +516,7 @@ if(isset( $_SESSION["teacher_id"])){
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="tlogin.php">Logout</a>
                 </div>
             </div>
         </div>

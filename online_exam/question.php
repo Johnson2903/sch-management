@@ -13,6 +13,8 @@ if ($result->num_rows > 0) {
       $hall=$row["classroom"];
       $examdate=$row["examdate"];
       $readable_date = date("F j, Y", strtotime($examdate));
+      $readable_time=date("h:i A", strtotime($row["examTime"]));
+      
     }
   } else {
     echo "0 results";
@@ -44,11 +46,16 @@ if ($result->num_rows > 0) {
     <h3 class="mb-3"> Hall: <?php echo   $hall?></h3>
 
     <h3 class="mb-3"> Exam Date: <?php echo  $readable_date?></h3>
+    <h3 class="mb-3"> Exam Time: <?php echo  $readable_time?></h3>
+    <br><br>
+    <span>Instruction: <text>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+       Placeat totam officiis quia nihil dolores quasi autem laudantium mollitia! Ratione laboriosam, esse beatae ad tempore aut? Incidunt nobis aliquid distinctio sint?</text></span>
+<br><br>
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Add Question
 </button>
-
+<br><br>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg">

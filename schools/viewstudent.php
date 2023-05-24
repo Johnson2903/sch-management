@@ -90,6 +90,9 @@ if(isset( $_SESSION["school_id"])){
 </style>
 <body>
 <div class="container rounded bg-white mt-5 mb-5">
+<div class="sticky-top">
+  <button class="btn btn-primary" onclick="history.back()">Back</button>
+</div>
     <div class="row">
         <div class="col-md-3 border-right">
             <div class="d-flex flex-column align-items-center text-center p-3 py-5">

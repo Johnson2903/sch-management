@@ -10,7 +10,7 @@ $teachersubject = htmlspecialchars($_POST['teachersubject']);
 $address = htmlspecialchars($_POST['teacheraddress']);
 $email = htmlspecialchars($_POST['teacheremail']);
 $phone = htmlspecialchars($_POST['teacherphone']);
-$sql="UPDATE teacher SET teacher_name='$teachername',teacher_subject='$teachersubject',teacher_adddress='$address',
+$sql="UPDATE teacher SET teacher_name='$teachername',subject_id='$teachersubject',teacher_adddress='$address',
 teacher_email='$email',teacher_phone='$phone' WHERE teacher_id=$teacherId AND school_id=$schoolId";
 
 if ($conn->query($sql) === TRUE) {

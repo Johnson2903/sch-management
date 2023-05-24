@@ -21,14 +21,14 @@ if(isset($_SESSION["school_id"])){
 </head>
 <body>
 <div class="container-fluid">
+<div class="sticky-top">
+  <button class="btn btn-primary" onclick="history.back()">Back</button>
+</div>
   <br><br>
   <!-- create exam -->
 <button type="button" class="d-none d-sm-inline-block btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2" data-bs-whatever="@getbootstrap">
     <i class="fas fa-plus fa-sm text-white-50"></i>Create Exam</button>
-   <!--  <button type="button" class="d-none d-sm-inline-block btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal3" data-bs-whatever="@getbootstrap">
-    <i class="fas fa-plus fa-sm text-white-50"></i>Add a New class</button> -->
-    <!-- <button type="button" d="exampleModal1" class="d-none d-sm-inline-block btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1" data-bs-whatever="@getbootstrap">
-    <i class="fas fa-plus fa-sm text-white-50"></i>upload course material</button> -->
+  
 </div>
 
 
@@ -45,26 +45,35 @@ if(isset($_SESSION["school_id"])){
             <label for="recipient-name" class="col-form-label">Examination Date</label>
             <input type="date" class="form-control" name="examdate" id="examdate" required />
           </div>
-           <div class="mb-3">
-             <select class="form-select form-select-md" name="class" id="class">
-             <option disabled>Choose Class</option>
-               <?php
-                                  $sql= "SELECT * FROM class where school_id='$schoolId'";
-                                  $result = $conn->query($sql);
-                                  if (mysqli_num_rows($result) > 0) {
-                                  // output data of each row
-                                  while($row = mysqli_fetch_assoc($result)) {
-     
-              ?>
-            <option><?php echo $row['class_name']?></option>
-             <?php
-                }
-            }else{
-                echo '<option>No Class available</option>';
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Examination start Time</label>
+            <input type="time" class="form-control" name="examtime" id="examtime" required />
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Examination End Time</label>
+            <input type="time" class="form-control" name="examendtime" id="examendtime" required />
+          </div>
+          <div class="mb-3">
+    <select class="form-select form-select-md" name="class" id="class">
+        <option disabled>Choose Class</option>
+        <?php
+        $sql = "SELECT * FROM class where school_id='$schoolId'";
+        $result = $conn->query($sql);
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while ($row = mysqli_fetch_assoc($result)) {
+                $selected = $row['class_id'] == $selectedClassId ? 'selected' : '';
+                ?>
+                <option value="<?php echo $row['class_id'] ?>" <?php echo $selected ?>><?php echo $row['class_name'] ?></option>
+                <?php
             }
-             ?>
-             </select>
-        </div>
+        } else {
+            echo '<option>No Class available</option>';
+        }
+        ?>
+    </select>
+</div>
+
           <div class="mb-3">
              <select class="form-select form-select-md" name="subject" id="subject">
              <option disabled>Choose subject</option>
@@ -139,13 +148,17 @@ if(isset($_SESSION["school_id"])){
           if (mysqli_num_rows($result) > 0) {
           // output data of each row
           while($row = mysqli_fetch_assoc($result)) {
-
+            $classid = $row['class_id'];
+        // fetch class with classid
+        $sql2 = "SELECT * FROM class WHERE class_id='$classid'";
+        $result2 = $conn->query($sql2);
+        $row2 = mysqli_fetch_assoc($result2);
           ?>
                     <tr>
                         <td id="examd"><?php echo $row["examdate"]?></td>
                         <td id="subj"><?php echo $row["subj"]?></td>
                         <td id="classr"><?php echo $row["classroom"]?></td>
-                        <td id="clas"><?php echo $row["class"]?></td>
+                        <td id="clas"><?php echo $row2["class_name"]?></td>
                         <td id="date"><?php echo $row["date"]?></td>                        
                         <td>
                              <div class="input-group">
@@ -175,7 +188,7 @@ echo "No data available";
 
 </div>
 <!-- End of Main Content -->
-<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -213,7 +226,86 @@ echo "No data available";
       </form>
     </div>
   </div>
+</div> -->
+
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Exam</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="addexam-form">
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Examination Date</label>
+            <input type="date" class="form-control" name="examdate" id="examdate" required />
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Examination start Time</label>
+            <input type="time" class="form-control" name="examtime" id="examtime" required />
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Examination End Time</label>
+            <input type="time" class="form-control" name="examendtime" id="examendtime" required />
+          </div>
+          <div class="mb-3">
+    <select class="form-select form-select-md" name="class" id="class">
+        <option disabled>Choose Class</option>
+        <?php
+        $sql = "SELECT * FROM class where school_id='$schoolId'";
+        $result = $conn->query($sql);
+        if (mysqli_num_rows($result) > 0) {
+            // output data of each row
+            while ($row = mysqli_fetch_assoc($result)) {
+                $selected = $row['class_id'] == $selectedClassId ? 'selected' : '';
+                ?>
+                <option value="<?php echo $row['class_id'] ?>" <?php echo $selected ?>><?php echo $row['class_name'] ?></option>
+                <?php
+            }
+        } else {
+            echo '<option>No Class available</option>';
+        }
+        ?>
+    </select>
 </div>
+
+          <div class="mb-3">
+             <select class="form-select form-select-md" name="subject" id="subject">
+             <option disabled>Choose subject</option>
+               <?php
+                                  $sql= "SELECT * FROM subjects where school_id='$schoolId'";
+                                  $result = $conn->query($sql);
+                                  if (mysqli_num_rows($result) > 0) {
+                                  // output data of each row
+                                  while($row = mysqli_fetch_assoc($result)) {
+     
+              ?>
+            <option><?php echo $row['subject']?></option>
+             <?php
+                }
+            }else{
+                echo '<option>No subject available</option>';
+            }
+             ?>
+             </select>
+        </div>
+          <div class="mb-3">
+            <label for="message-text" class="col-form-label">classroom</label>
+            <textarea class="form-control" value="<?php ?>" name="classroom" id="classroom" required /></textarea>
+          </div>
+        
+      </div> 
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <!-- <button type="button" id="addexam" class="btn btn-primary">Add</button> -->
+        <button type="button" id="updatexam" name="updatexam" class="btn btn-primary">Update</button>
+
+      </div>
+      </form>
+    </div>
+  </div>
+</div>     
 <?php      
 // }
 //         }else{

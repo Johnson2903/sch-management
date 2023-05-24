@@ -15,6 +15,8 @@ if ($result->num_rows > 0) {
           $_SESSION["teacher_id"]=$srow["teacher_id"];
           $_SESSION["teacher_name"]=$srow["teacher_name"];
           $_SESSION["teacher_email"]=$srow["teacher_email"];
+          $_SESSION["class_id"]=$srow["class_id"];
+
           header("location: ../teachers/teacher_dashboard.php");
       } 
   }else{
