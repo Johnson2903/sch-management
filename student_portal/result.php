@@ -5,10 +5,10 @@ ini_set('display_errors', 1);
 session_start();
 include "../engine/database.php";
 
-if (isset($_GET['examid']) && isset($_GET['queid'] )) {
+if (isset($_GET['exam_id']) && isset($_SESSION["school_id"]) ) {
     $schoolId = $_SESSION["school_id"];
-    $examid = $_GET['examid'];
-    $question_id=$_GET['queid'];
+    $examid = $_GET['exam_id'];
+    // $question_id=$_GET['queid'];
     // Retrieve the exam details
     $exam_result = mysqli_query($conn, "SELECT * FROM examtimetable WHERE schoolID= $schoolId AND examid = $examid");
 
@@ -19,7 +19,7 @@ if (isset($_GET['examid']) && isset($_GET['queid'] )) {
         $answers_result = mysqli_query($conn, "SELECT * FROM exam_answers WHERE examid = $examid");
 
         // Display the exam result
-        echo "<h2>Exam Result - $exam_name</h2>";
+        echo "<h2 stlye='text-align:center;'>Exam Result - $exam_name</h2>";
 
         if ($answers_result->num_rows > 0) {
             $total_questions = $answers_result->num_rows;
@@ -42,10 +42,21 @@ if (isset($_GET['examid']) && isset($_GET['queid'] )) {
 
             // Calculate the percentage of correct answers
             $percentage = ($correct_answers / $total_questions) * 100;
+            
+            // echo "<p>Total Questions: $total_questions</p>";
+            // echo "<p>Correct Answers: $correct_answers</p>";
+            // echo "<p>Percentage: $percentage%</p>";
+            echo <<<HTML
+            <div class="result-container">
+              <h2>Exam Result</h2>
+              <p>Total Questions: $total_questions</p>
+              <p>Correct Answers: $correct_answers</p>
+              <p>Percentage: $percentage%</p>
+            </div>
+            HTML;
 
-            echo "<p>Total Questions: $total_questions</p>";
-            echo "<p>Correct Answers: $correct_answers</p>";
-            echo "<p>Percentage: $percentage%</p>";
+
+
         } else {
             echo "<p>No answers found for this exam.</p>";
         }
@@ -53,8 +64,30 @@ if (isset($_GET['examid']) && isset($_GET['queid'] )) {
         echo "<p>Exam not found.</p>";
     }
 } else {
-    echo "<p>Invalid exam ID.</p>";
+    // echo "<p>Invalid exam ID.</p>";
+    header("location: index.php");
 }
 ?>
 
 
+<style>
+    .result-container {
+      max-width: 400px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f5f5f5;
+      text-align: center;
+    }
+
+    .result-container h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .result-container p {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+  </style>

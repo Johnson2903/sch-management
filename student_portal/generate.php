@@ -31,14 +31,14 @@ function generateScratchCard($pin) {
     // $fontPath = 'https://example.com/fonts/font.ttf';
 
     // Add branding text to the scratch card
-    imagettftext($cardImage, 20, 0, 20, 40, $textColor, 'https://example.com/fonts/font.ttf', $brandingText);
+    // imagettftext($cardImage, 20, 0, 20, 40, $textColor, 'https://example.com/fonts/font.ttf', $brandingText);
 
     // Add instructions text to the scratch card
-    imagettftext($cardImage, 12, 0, 20, 80, $textColor, 'https://example.com/fonts/font.ttf', $instructionsText);
+    // imagettftext($cardImage, 12, 0, 20, 80, $textColor, 'https://example.com/fonts/font.ttf', $instructionsText);
 
     // Generate and add the PIN code to the scratch card
     $pinCodeText = 'PIN: ' . $pin;
-    imagettftext($cardImage, 18, 0, 20, 120, $textColor, 'https://example.com/fonts/font.ttf', $pinCodeText);
+    // imagettftext($cardImage, 18, 0, 20, 120, $textColor, 'https://example.com/fonts/font.ttf', $pinCodeText);/
 
     // Apply the scratch-off material over the designated area
     $scratchOffColor = imagecolorallocate($cardImage, 200, 200, 200);

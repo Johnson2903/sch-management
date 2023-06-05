@@ -95,16 +95,17 @@ $schoolId=$_SESSION["school_id"];
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
+                <a class="nav-link" href="../schools/students.php">
+                    <!-- <i class="fas fa-fw fa-chart-area"></i> -->
+                    <i class='fas fa-fw  fa-user-friends'></i>
+                    <span>Students</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="../online_exam">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
+                    <span>Exam Sysmtem</span></a>
             </li>
 
             <!-- Divider -->

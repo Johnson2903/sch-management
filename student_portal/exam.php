@@ -35,29 +35,9 @@ if(isset( $_SESSION["student_regno"])){
 }
 </style>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container">
-    <a class="navbar-brand" href="myPortal.php"><i class="fa fa-fw fa-home"></i> Home</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="#"><i class="fas fa-fw fa-tasks"></i> School Activitics</a>
-        </li>
-        <li class="nav-item">
-          <!-- <a class="nav-link" href="#"><i class="fa fa-fw fa-envelope"></i> Assignment</a> -->
-          <a class="nav-link" href="#"><i class="fa fa-fw fa-book"></i> Assignment</a>
-
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="exam.php"><i class="fa fa-fw fa-user"></i> Exam</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<?php
+include "nav.php";
+?>
 <br>
 <p class="text-center">
   <strong class="text-white"><?php echo $schoolName; ?></strong>

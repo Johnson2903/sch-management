@@ -7,30 +7,47 @@ if (isset($_POST['submit'])) {
     $cardpin = htmlspecialchars($_POST['cardpin']);
     $examNo = htmlspecialchars($_POST['examNo']); 
 
-    $sql = "SELECT * FROM student WHERE lastname ='$surname' and student_regno='$studentNo'";
+    $sql = "SELECT * FROM student WHERE exam_no ='$examNo'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
         $srow = $result->fetch_assoc();
-        if ($srow["lastname"] == $surname && $srow["student_regno"] == $studentNo) {
-            $_SESSION["student_id"] = $srow["id"];
-            $_SESSION["student_regno"] = $srow["student_regno"];
-			$_SESSION["school_id"]= $srow["schoolID"];
-			$_SESSION["class_id"]= $srow["class_id"];
+        $_SESSION["examNo"] = $srow["exam_no"];
 
+        // check if pin is valid and active
+      $sql2 = "SELECT * FROM scratch_cards WHERE pin_code ='$cardpin'";
+      $result2 = $conn->query($sql2);
+      if ($result2->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        if ($row["is_used"] == 0) {
+            // Update the is_used column to 1
+            $updateSql = "UPDATE scratch_cards SET is_used = 1 WHERE pin_code = '$cardpin'";
+            if ($conn->query($updateSql) === true) {
+                // Pin marked as used successfully
+                // $_SESSION["student_id"] = $srow["id"];
+                header("location: examTaken.php");
+            // $error_message = "Now you can check your result.";
 
-
-        } 
-		header("location: myPortal.php");
-
+            } else {
+                $error_message = "Failed to mark the pin as used: " . $conn->error;
+            }
+        } else {
+            $error_message = "This Pin has already been used.";
+        }
     } else {
-        $error_message = "Email or Password is incorrect.";
+        $error_message = "Invalid Pin.";
+    }
+    
+        // if ($srow[""] == $surname && $srow["student_regno"] == $studentNo) {
+        // if ($srow["exam"] == $surname) {
+
+        // } 
+    } else {
+        $error_message = "Examination Number not correct.";
     }
 }
+
 ?>
-
-
-
 
 
 <!doctype html>
@@ -48,6 +65,9 @@ if (isset($_POST['submit'])) {
 
 	</head>
 	<body>
+    <?php
+include "nav.php";
+?>
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row justify-content-center">
@@ -55,9 +75,11 @@ if (isset($_POST['submit'])) {
 					<!-- <h2 class="heading-section">Login to your Portal</h2> -->
 				</div>
 			</div>
+          
 			<?php
 if (isset($error_message)) {
-    echo '<div class="alert alert-danger">' . $error_message . '</div>';
+    echo '<div class="alert alert-danger" style="text-align: center;">' . $error_message . '</div>';
+
 }
 ?>
 
@@ -74,7 +96,7 @@ if (isset($error_message)) {
 		      			<input type="text" class="form-control rounded-left" name="cardpin" placeholder="Enter Your Card pin" required>
 		      		</div>
 	            <div class="form-group d-flex">
-	              <input type="password" class="form-control rounded-left"  name="examno" placeholder="Examination Number" required>
+	              <input type="" class="form-control rounded-left"  name="examNo" placeholder="Examination Number" required>
 	            </div>
 	            <div class="form-group">
 	            	<button type="submit" name="submit" class="form-control btn btn-primary rounded submit px-3"> Check</button>
